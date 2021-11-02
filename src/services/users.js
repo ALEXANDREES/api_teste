@@ -9,14 +9,24 @@ class UserService {
     }
 
     async add(userDTO) {
-        const validationUser = await this.user.findOne({
+        const validationUserCpf = await this.user.findOne({
             where: {
                 cpf: userDTO.cpf
             }
         })
 
-        if (validationUser != null) {
+        if (validationUserCpf != null) {
             throw new Error('The informative cpf is already being used!')
+        }
+
+        const validationUserEmail = await this.user.findOne({
+            where: {
+                email: userDTO.email
+            }
+        })
+
+        if (validationUserEmail != null) {
+            throw new Error('The informative email is already being used!')
         }
 
         try {
