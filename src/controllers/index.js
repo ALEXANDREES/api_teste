@@ -1,4 +1,5 @@
 const express = require('express')
+const authenticationRouters = require('./authentication')
 const usersRouters = require('./users')
 const productsRouters = require('./products')
 
@@ -8,6 +9,7 @@ router.get('/', (req, res) => {
     res.send('App online!')
 })
 
+router.use('/authentication', authenticationRouters)
 router.use('/users', usersRouters)
 router.use('/products', productsRouters)
 
