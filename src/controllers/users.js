@@ -2,8 +2,11 @@ const express = require('express')
 const { users } = require('../models/index')
 const UserService = require('../services/users')
 const { body, check, validationResult } = require('express-validator')
+const middleware = require('../middlewares/validatedAuthentication')
 
 const router = express.Router()
+router.use(middleware)
+
 const userService = new UserService(users)
 
 router.get('/listUsers', async (req, res) => {
