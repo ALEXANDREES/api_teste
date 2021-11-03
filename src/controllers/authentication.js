@@ -43,8 +43,8 @@ router.post('/loginUser',
                 token: generateToken({ id: validateUser.id })
             })
         } catch (error) {
-            res.status(400).send({
-                status: 400,
+            res.status(404).send({
+                status: 404,
                 message: error.message
             })
         }
