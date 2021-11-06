@@ -66,8 +66,8 @@ class UserService {
                 {
                     ...userDTO 
                 },
-                { where: 
-                    { 
+                { 
+                    where: { 
                         id: idDTO
                     } 
                 }
@@ -98,8 +98,8 @@ class UserService {
                 {
                     ...dataMerge 
                 },
-                { where: 
-                    { 
+                { 
+                    where: { 
                         id: idDTO
                     } 
                 }
