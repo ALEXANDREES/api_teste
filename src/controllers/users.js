@@ -109,21 +109,37 @@ router.put('/updateUser/:id',
     }
 )
 
-router.patch('/updateUserMerge/:id',async (req, res) => {
-    const idUser = req.params.id
+router.patch('/updateUserMerge/:id',
+    body('name').not().isEmpty().withMessage('The data sent cannot be empty or null').trim().escape(),   
+    check('cpf').not().isEmpty().isNumeric().withMessage('The data sent must be valid numbers'),
+    check('birthDate').not().isEmpty().isISO8601().toDate().withMessage('The date entered is not within the established pattern'),
+    check('password').not().isEmpty().isLength({ min: 6 }).withMessage('The password entered must have more than 6 characters'),
+    check('email').not().isEmpty().isEmail().withMessage('The e-mail entered is not a valid address'),
 
-    const dataUser = {...req.body}
+    async (req, res) => {
+        const errors = validationResult(req)
 
-    try {
-        await userService.updateMerge(idUser, dataUser)
-        res.status(204).send()
-    } catch (error) {
-        res.status(404).send({
-            status: 404,
-            message: error.message
-        })
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                errors: errors.array()
+            })
+        }
+
+        const idUser = req.params.id
+
+        const dataUser = {...req.body}
+
+        try {
+            await userService.updateMerge(idUser, dataUser)
+            res.status(204).send()
+        } catch (error) {
+            res.status(404).send({
+                status: 404,
+                message: error.message
+            })
+        }
     }
-})
+)
 
 router.delete('/deleteUser/:id', async (req, res) => {
     const idUser = req.params.id
