@@ -17,7 +17,7 @@ function generateToken(id = {}){
     )
 }
 
-router.post('/loginUser',
+router.post('/login',
     check('password').not().isEmpty().isLength({ min: 6 }).withMessage('The password entered must have more than 6 characters'),
     check('email').not().isEmpty().isEmail().withMessage('The e-mail entered is not a valid address'),
 
@@ -52,7 +52,7 @@ router.post('/loginUser',
     }
 )
 
-router.post('/forgotPassword',
+router.post('/forgot/password',
     check('email').not().isEmpty().isEmail().withMessage('The e-mail entered is not a valid address'),
 
     async (req, res) => {
