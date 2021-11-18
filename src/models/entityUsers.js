@@ -1,36 +1,35 @@
-const users = (sequelize, DataTypes) => {
-    const Users = sequelize.define('EntityUsers', {
-        id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
-        },
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        cpf: {
-            type: DataTypes.STRING,
-            unique: true,
-            allowNull: false
-        },  
-        birthDate: {
-            type: DataTypes.DATE,
-            allowNull: false
-        },
-        password: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        email: {
-            type: DataTypes.STRING,
-            allowNull: false
-        }
-    }, {
-        tableName: 'entityusers'
-    })
+const Sequelize = require('sequelize')
+const configSequelize = require('../config/sequelize')
 
-    return Users
-}
+const Users = configSequelize.define('EntityUsers', {
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    name: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    cpf: {
+        type: Sequelize.STRING,
+        unique: true,
+        allowNull: false
+    },  
+    birthDate: {
+        type: Sequelize.DATE,
+        allowNull: false
+    },
+    password: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    email: {
+        type: Sequelize.STRING,
+        allowNull: false
+    }
+}, {
+    tableName: 'entityusers'
+})
 
-module.exports = users
+module.exports = Users

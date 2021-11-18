@@ -1,5 +1,5 @@
 const express = require('express')
-const { users } = require('../models/index')
+const { Users } = require('../models/index')
 const UserService = require('../services/users')
 const { body, check, validationResult } = require('express-validator')
 const middleware = require('../middlewares/validatedAuthentication')
@@ -7,7 +7,7 @@ const middleware = require('../middlewares/validatedAuthentication')
 const router = express.Router()
 router.use(middleware)
 
-const userService = new UserService(users)
+const userService = new UserService(Users)
 
 router.get('/:id/details', async (req, res) => {
     const idUser = req.params.id

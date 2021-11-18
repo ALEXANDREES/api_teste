@@ -1,5 +1,5 @@
 const express = require('express')
-const { users } = require('../models/index')
+const { Users } = require('../models/index')
 const AuthenticationService = require('../services/authentication')
 const { check, validationResult } = require('express-validator')
 const jwt = require('jsonwebtoken')
@@ -7,7 +7,7 @@ const keyToken = require('../config/keyToken.json')
 const mailer = require('../util/mailer')
 
 const router = express.Router()
-const authenticationService = new AuthenticationService(users)
+const authenticationService = new AuthenticationService(Users)
 
 function generateToken(id = {}){
     return jwt.sign(
