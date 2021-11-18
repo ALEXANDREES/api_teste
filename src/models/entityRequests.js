@@ -6,6 +6,7 @@ const Requests = configSequelize.define('EntityRequests', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
+        unique: true,
         autoIncrement: true
     },
     note: {
@@ -18,6 +19,30 @@ const Requests = configSequelize.define('EntityRequests', {
             model: 'Users',
             key: 'id'    
         }
+    },
+    amount: {
+        type: Sequelize.FLOAT,
+        allowNull: false
+    },
+    amountProduct: {
+        type: Sequelize.FLOAT,
+        allowNull: false
+    },
+    amountDiscount: {
+        type: Sequelize.FLOAT,
+        allowNull: false
+    },
+    // paymentId: {
+    //     type: Sequelize.INTEGER,
+    //     allowNull: false,
+    //     reference: {
+    //         model: 'Payments',
+    //         key: 'id'    
+    //     }
+    // },
+    products: {
+        type: Sequelize.ARRAY(Sequelize.JSON),
+        allowNull: false
     }
 }, {
     tableName: 'entityrequests'
