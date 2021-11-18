@@ -8,7 +8,7 @@ app.use(express.json())
 app.use('/', routers)
 
 // { force: true }
-configSequelize.sync({ force: true }).then(() => {
+configSequelize.sync().then(() => {
     console.log('Database Connected!')
 })
 

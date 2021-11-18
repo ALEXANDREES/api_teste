@@ -24,7 +24,13 @@ class RequestService {
     }
 
     async getAll() {
-        const listRequests = await this.request.findAll()
+        const listRequests = await this.request.findAll({            
+            include: { 
+                model: Users,
+                as: 'userData'
+            }
+        })
+
         return listRequests
     }
 
@@ -46,86 +52,86 @@ class RequestService {
         }
     }
 
-    // async update(idDTO, requestDTO) {
-    //     const validationProductUpdate = await this.product.findOne({
-    //         where: {
-    //             id: idDTO
-    //         }
-    //     })
+    async update(idDTO, requestDTO) {
+        const validationRequestUpdate = await this.request.findOne({
+            where: {
+                id: idDTO
+            }
+        })
 
-    //     if (validationProductUpdate === null) {
-    //         throw new Error('Product not found!')
-    //     }
+        if (validationRequestUpdate === null) {
+            throw new Error('Request not found!')
+        }
 
-    //     try {
-    //         await this.product.update(
-    //             {
-    //                 ...requestDTO 
-    //             },
-    //             { 
-    //                 where: { 
-    //                     id: idDTO
-    //                 } 
-    //             }
-    //         )
-    //     } catch (error) {
-    //         throw error.message
-    //     }
-    // }
+        try {
+            await this.request.update(
+                {
+                    ...requestDTO 
+                },
+                { 
+                    where: { 
+                        id: idDTO
+                    } 
+                }
+            )
+        } catch (error) {
+            throw error.message
+        }
+    }
 
-    // async updateMerge(idDTO, requestDTO) {
-    //     const validationProductUpdateMerge = await this.product.findOne({
-    //         where: {
-    //             id: idDTO
-    //         }
-    //     })
+    async updateMerge(idDTO, requestDTO) {
+        const validationRequestUpdateMerge = await this.request.findOne({
+            where: {
+                id: idDTO
+            }
+        })
 
-    //     if (validationProductUpdateMerge === null) {
-    //         throw new Error('Product not found!')
-    //     }
+        if (validationRequestUpdateMerge === null) {
+            throw new Error('Request not found!')
+        }
 
-    //     const dataMerge = {
-    //         ...validationProductUpdateMerge.dataValues,
-    //         ...requestDTO
-    //     }
+        const dataMerge = {
+            ...validationRequestUpdateMerge.dataValues,
+            ...requestDTO
+        }
 
-    //     try {
-    //         await this.product.update(
-    //             {
-    //                 ...dataMerge 
-    //             },
-    //             { 
-    //                 where: { 
-    //                     id: idDTO
-    //                 } 
-    //             }
-    //         )
-    //     } catch (error) {
-    //         throw error.message
-    //     }
-    // }
+        try {
+            await this.request.update(
+                {
+                    ...dataMerge 
+                },
+                { 
+                    where: { 
+                        id: idDTO
+                    } 
+                }
+            )
+        } catch (error) {
+            throw error.message
+        }
+    }
 
-    // async delete(idDTO) {
-    //     const validationProductDelete = await this.product.findOne({
-    //         where: {
-    //             id: idDTO
-    //         }
-    //     })
+    async delete(idDTO) {
+        const validationRequestDelete = await this.request.findOne({
+            where: {
+                id: idDTO
+            }
+        })
 
-    //     if (validationProductDelete === null) {
-    //         throw new Error('Product not found!')
-    //     }
+        if (validationRequestDelete === null) {
+            throw new Error('Request not found!')
+        }
 
-    //     try {
-    //         await this.product.destroy({
-    //             where: {
-    //                 id: idDTO
-    //             }
-    //         })
-    //     } catch (error) {
-    //         throw error.message
-    //     }
-    // }
+        try {
+            await this.request.destroy({
+                where: {
+                    id: idDTO
+                }
+            })
+        } catch (error) {
+            throw error.message
+        }
+    }
 }
 
 module.exports = RequestService
