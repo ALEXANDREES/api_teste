@@ -1,17 +1,17 @@
 const Sequelize = require('sequelize')
+const AccessLevel = require('../models/entityAccessLevel')
 
 class UserService {
     constructor(UserModel) {
         this.user = UserModel
     }
 
-    async getAll(){
-        const listUsers = await this.user.findAll()
-        return listUsers
-    }
-
     async getById(idDTO){
         const validationUserById = await this.user.findOne({
+            include: {
+                model: AccessLevel,
+                as: 'accessLevelData'
+            },
             where: {
                 id: idDTO
             }
@@ -22,6 +22,16 @@ class UserService {
         } else {
             return validationUserById
         }
+    }
+
+    async getAll(){
+        const listUsers = await this.user.findAll({
+            include: {
+                model: AccessLevel,
+                as: 'accessLevelData'
+            }
+        })
+        return listUsers
     }
 
     async add(userDTO) {

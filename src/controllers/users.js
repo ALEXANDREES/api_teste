@@ -53,7 +53,8 @@ router.post('/',
             cpf: req.body.cpf,
             birthDate: req.body.birthDate,
             password: req.body.password,
-            email: req.body.email
+            email: req.body.email,
+            accessLevelId: req.body.accessLevelId
         }
 
         try {
@@ -94,7 +95,8 @@ router.put('/:id',
             cpf: req.body.cpf,
             birthDate: req.body.birthDate,
             password: req.body.password,
-            email: req.body.email
+            email: req.body.email,
+            accessLevelId: req.body.accessLevelId
         }
 
         try {

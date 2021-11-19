@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const configSequelize = require('../config/sequelize')
+const AccessLevel = require('./entityAccessLevel')
 
 const Users = configSequelize.define('EntityUsers', {
     id: {
@@ -27,9 +28,29 @@ const Users = configSequelize.define('EntityUsers', {
     email: {
         type: Sequelize.STRING,
         allowNull: false
-    }
+    },
+    accessLevelId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        reference: {
+            model: 'AccessLevel',
+            key: 'id'    
+        }
+    },
 }, {
     tableName: 'entityusers'
+})
+
+Users.belongsTo(AccessLevel, { 
+    constraint: true,
+    foreignKey: 'accessLevelId',
+    as: 'accessLevelData'
+})
+
+AccessLevel.hasMany(Users, { 
+    constraint: true,
+    foreignKey: 'accessLevelId',
+    as: 'accessLevelsData'
 })
 
 module.exports = Users

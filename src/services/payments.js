@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize')
+
 class PaymentService {
     constructor(PaymentModel) {
         this.payment = PaymentModel

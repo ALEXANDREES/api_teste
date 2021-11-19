@@ -4,6 +4,7 @@ const usersRouters = require('./users')
 const productsRouters = require('./products')
 const requestsRouters = require('./requests')
 const paymentsRouters = require('./payments')
+const accessLevelRouters = require('./accessLevel')
 
 const router = express.Router()
 
@@ -16,5 +17,6 @@ router.use('/users', usersRouters)
 router.use('/products', productsRouters)
 router.use('/requests', requestsRouters)
 router.use('/payments', paymentsRouters)
+router.use('/access/level', accessLevelRouters)
 
 module.exports = router
