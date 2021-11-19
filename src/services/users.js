@@ -55,6 +55,16 @@ class UserService {
             throw new Error('The informative email is already being used!')
         }
 
+        const validationUserAccessLevel = await AccessLevel.findOne({
+            where: {
+                id: userDTO.accessLevelId
+            }
+        })
+
+        if (validationUserAccessLevel === null) {
+            throw new Error('The ID informed for the access level is not valid!')
+        }
+
         try {
             await this.user.create(userDTO)
         } catch (error) {
