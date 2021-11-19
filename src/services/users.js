@@ -1,3 +1,5 @@
+const Sequelize = require('sequelize')
+
 class UserService {
     constructor(UserModel) {
         this.user = UserModel
@@ -46,7 +48,7 @@ class UserService {
         try {
             await this.user.create(userDTO)
         } catch (error) {
-            throw error.message
+            throw error
         }
     }
 
@@ -73,7 +75,7 @@ class UserService {
                 }
             )
         } catch (error) {
-            throw error.message
+            throw error
         }
     }
 
@@ -105,7 +107,7 @@ class UserService {
                 }
             )
         } catch (error) {
-            throw error.message
+            throw error
         }
     }
 
@@ -127,7 +129,13 @@ class UserService {
                 }
             })
         } catch (error) {
-            throw error.message
+            if (error instanceof Sequelize.ForeignKeyConstraintError) {
+                error.message = 'It is not possible to delete the user as it is linked to another table!'
+                throw error
+                // if (error.index.includes("entityrequests_userId_fkey")) {}
+            } else {
+                throw error
+            }
         }
     }
 }

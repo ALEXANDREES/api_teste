@@ -1,3 +1,4 @@
+const Sequelize = require('sequelize')
 class PaymentService {
     constructor(PaymentModel) {
         this.payment = PaymentModel
@@ -36,7 +37,7 @@ class PaymentService {
         try {
             await this.payment.create(paymentDTO)
         } catch (error) {
-            throw error.message
+            throw error
         }
     }
 
@@ -63,7 +64,7 @@ class PaymentService {
                 }
             )
         } catch (error) {
-            throw error.message
+            throw error
         }
     }
 
@@ -95,7 +96,7 @@ class PaymentService {
                 }
             )
         } catch (error) {
-            throw error.message
+            throw error
         }
     }
 
@@ -117,7 +118,13 @@ class PaymentService {
                 }
             })
         } catch (error) {
-            throw error.message
+            if (error instanceof Sequelize.ForeignKeyConstraintError) {
+                error.message = 'It is not possible to delete the payment method as it is linked to another table!'
+                throw error
+                // if (error.index.includes("entityrequests_paymentId_fkey")) {}
+            } else {
+                throw error
+            }
         }
     }
 }
