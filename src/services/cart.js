@@ -58,53 +58,59 @@ class CartService {
             throw new Error('The sent ID does not correspond to a valid user!')
         }
 
-        const validationCart = await Products.findOne({
+        const validationProduct = await Products.findOne({
             where: {
                 id: cartDTO.productId
             }
         })
 
-        if (validationCart === null) {
+        if (validationProduct === null) {
             throw new Error('The sent ID does not correspond to a valid product!')
+        } else {
+            var inventory = validationProduct.dataValues.inventory
         }
 
-        const validationQuantityProductCart = await this.cart.findOne({
-            where: {
-                userId: cartDTO.userId,
-                productId: cartDTO.productId
-            }
-        })
+        if (inventory > 0) {
+            const validationQuantityProductCart = await this.cart.findOne({
+                where: {
+                    userId: cartDTO.userId,
+                    productId: cartDTO.productId
+                }
+            })
 
-        if (validationQuantityProductCart === null) {
-            try {
-                await this.cart.create(cartDTO)
-            } catch (error) {
-                throw error
+            if (validationQuantityProductCart === null) {
+                try {
+                    await this.cart.create(cartDTO)
+                } catch (error) {
+                    throw error
+                }
+            } else {
+                const idCart = validationQuantityProductCart.dataValues.id
+                const lastQuantity = validationQuantityProductCart.dataValues.quantity
+                const newQuantity = lastQuantity + cartDTO.quantity
+
+                const dataMerge = {
+                    ...validationQuantityProductCart.dataValues,
+                    quantity: newQuantity
+                }
+
+                try {
+                    await this.cart.update(
+                        {
+                            ...dataMerge 
+                        },
+                        { 
+                            where: { 
+                                id: idCart
+                            } 
+                        }
+                    )
+                } catch (error) {
+                    throw error
+                }
             }
         } else {
-            const idCart = validationQuantityProductCart.dataValues.id
-            const lastQuantity = validationQuantityProductCart.dataValues.quantity
-            const newQuantity = lastQuantity + cartDTO.quantity
-
-            const dataMerge = {
-                ...validationQuantityProductCart.dataValues,
-                quantity: newQuantity
-            }
-
-            try {
-                await this.cart.update(
-                    {
-                        ...dataMerge 
-                    },
-                    { 
-                        where: { 
-                            id: idCart
-                        } 
-                    }
-                )
-            } catch (error) {
-                throw error
-            }
+            throw new Error('Product not available, insufficient stock!')
         }
     }
 
