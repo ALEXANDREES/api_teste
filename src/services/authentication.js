@@ -1,3 +1,5 @@
+const AccessLevel = require("../models/entityAccessLevel")
+
 class AuthenticationService {
     constructor(UserModel) {
         this.user = UserModel
@@ -5,6 +7,10 @@ class AuthenticationService {
 
     async login(userDTO){
         const validationUser = await this.user.findOne({
+            include: {
+                model: AccessLevel,
+                as: 'accessLevelData'
+            },
             where: {
                 email: userDTO.email,
                 password: userDTO.password
